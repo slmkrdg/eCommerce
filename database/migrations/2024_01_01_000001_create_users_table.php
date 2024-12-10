@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -42,6 +44,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['customer_id']);
+            $table->dropColumn('customer_id');
+        });
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
