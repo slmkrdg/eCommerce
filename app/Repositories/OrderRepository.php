@@ -38,6 +38,11 @@ class OrderRepository
         return Order::with('orderItems')->where("customer_id",$customerId)->get();
     }
 
+    public function getOrder(int $orderId, int $customerId)
+    {
+        return Order::with('orderItems.product')->where("id", $orderId)->where("customer_id",$customerId)->first();
+    }
+
     public function delete(int $id,int $customerId)
     {
         $order = Order::where('id', $id)->where('customer_id', $customerId)->firstOrFail();;
