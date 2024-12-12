@@ -19,12 +19,12 @@ class RegisterController extends Controller
 
     public function register(RegisterUserRequest $request)
     {
-
         $user = $this->userService->register($request->validated());
 
         return response()->json([
-            'message' => 'User and customer successfully registered!',
-            'user' => $user,
+            'status'    => '1',
+            'message'   => 'Kullanıcı oluşturuldu',
+            'user'      => $user,
         ]);
     }
 }

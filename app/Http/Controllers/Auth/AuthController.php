@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -13,7 +13,8 @@ class AuthController extends Controller
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'status'  => '0',
+                'message' => 'Bilgiler hatalı'
             ], 401);
         }
 
@@ -23,8 +24,12 @@ class AuthController extends Controller
         $token = $user->createToken('Personal Access Token')->accessToken;
 
         return response()->json([
-            'user' => $user,
-            'token' => $token,
+            'status'  => '1',
+            'message' => 'İşlem başarılı',
+            'data'    => [            
+                'user'  => $user,
+                'token' => $token,
+            ]
         ]);
     }
 }
